@@ -1,0 +1,7 @@
+Apart from disabling remote login for 'root' user, it is recommended to encourage passwordless entry using RSA private/public key pairs. This can limit remote user access with password trys.
+Other option is to limit number of retries for remote login. This can be achieved by setting MaxAuthTries value in /etc/ssh/sshd_config file.
+Using a non-standard port for SSH is also another option to make the guessing harder and add another layer of protection.
+Also a password rotaion mechanism would be a good practice.
+
+In addition to all these steps for limiting access, carefully designing the sudoer capabilities of users to prevent arbitrary elevation of rights can further enhance the security level of the system.
+Additionally outgoing ports for malicious or suspicious scripts should be blocked to prevent unwanted http requests
