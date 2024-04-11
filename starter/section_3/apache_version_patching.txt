@@ -2,10 +2,45 @@
 
 
 # Apache Version
+Server: Apache/2.4.7 (Ubuntu)
+
 
 
 
 # Configuration file change(Hint: the change has to be made in /etc/apache2/conf-enabled/security.conf)
 
+ServerTokens Prod
+ServerSignature Off
 
 
+#Details below
+
+ubuntu@ubuntu-VirtualBox:~$ curl --head localhost
+HTTP/1.1 200 OK
+Date: Wed, 10 Apr 2024 04:43:31 GMT
+Server: Apache/2.4.7 (Ubuntu)
+Last-Modified: Wed, 10 Jun 2020 08:30:54 GMT
+ETag: "2cf6-5a7b6a991f9e8"
+Accept-Ranges: bytes
+Content-Length: 11510
+Vary: Accept-Encoding
+Content-Type: text/html
+
+ubuntu@ubuntu-VirtualBox:~$ 
+ubuntu@ubuntu-VirtualBox:~$ sudo vi /etc/apache2/conf-enabled/security.conf
+ubuntu@ubuntu-VirtualBox:~$ sudo vi /etc/apache2/apache2.conf
+ubuntu@ubuntu-VirtualBox:~$ sudo service apache2 restart
+ * Restarting web server apache2                                                                              AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+                                                                                                       [ OK ]
+ubuntu@ubuntu-VirtualBox:~$ 
+ubuntu@ubuntu-VirtualBox:~$ curl --head localhost
+HTTP/1.1 200 OK
+Date: Wed, 10 Apr 2024 04:44:55 GMT
+Server: Apache
+Last-Modified: Wed, 10 Jun 2020 08:30:54 GMT
+ETag: "2cf6-5a7b6a991f9e8"
+Accept-Ranges: bytes
+Content-Length: 11510
+Vary: Accept-Encoding
+Content-Type: text/html
+ubuntu@ubuntu-VirtualBox:~$

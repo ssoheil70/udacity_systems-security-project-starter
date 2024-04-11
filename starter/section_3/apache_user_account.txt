@@ -2,6 +2,77 @@
 
 
 #Configuration lines:
+Refering to "/etc/apache2/envvars":
+export APACHE_RUN_USER=apache-user
+export APACHE_RUN_GROUP=apache-group
 
 
+
+
+
+#Details below
+
+### At first investigate apache2 configuration file "/etc/apache2/apache2.conf" shows:
+
+...
+# These need to be set in /etc/apache2/envvars
+User ${APACHE_RUN_USER}
+Group ${APACHE_RUN_GROUP}
+...
+
+### Refering to "/etc/apache2/envvars":
+
+...
+export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data
+...
+
+
+### Checking the 'www-data' user permissions and adding similar permissions to apache-user account:
+
+ubuntu@ubuntu-VirtualBox:~$ groups www-data
+www-data : www-data ossec
+ubuntu@ubuntu-VirtualBox:~$
+ubuntu@ubuntu-VirtualBox:~$ sudo usermod -aG ossec apache-user
+ubuntu@ubuntu-VirtualBox:~$ groups apache-user
+apache-user : apache-user ossec apache-group
+ubuntu@ubuntu-VirtualBox:~$
+
+### Update "/etc/apache2/envvars":
+
+...
+#export APACHE_RUN_USER=www-data
+#export APACHE_RUN_GROUP=www-data
+
+export APACHE_RUN_USER=apache-user
+export APACHE_RUN_GROUP=apache-group
+...
+
+### Check running apache2 service and restart it:
+
+ubuntu@ubuntu-VirtualBox:~$ 
+ubuntu@ubuntu-VirtualBox:~$ ps aux | grep apache
+root      2552  0.0  0.4 156440 20304 ?        Ss   13:10   0:00 /usr/sbin/apache2 -k start
+www-data  2556  0.0  0.1 156464  6376 ?        S    13:10   0:00 /usr/sbin/apache2 -k start
+www-data  2557  0.0  0.1 156464  6376 ?        S    13:10   0:00 /usr/sbin/apache2 -k start
+www-data  2558  0.0  0.1 156464  6376 ?        S    13:10   0:00 /usr/sbin/apache2 -k start
+www-data  2559  0.0  0.1 156464  6376 ?        S    13:10   0:00 /usr/sbin/apache2 -k start
+www-data  2560  0.0  0.1 156464  6376 ?        S    13:10   0:00 /usr/sbin/apache2 -k start
+ubuntu    4242  0.0  0.0   4680   824 pts/10   S+   13:30   0:00 grep --color=auto apache
+ubuntu@ubuntu-VirtualBox:~$ sudo service apache2 restart
+ * Restarting web server apache2                                                                                    AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+                                                                                                             [ OK ]
+ubuntu@ubuntu-VirtualBox:~$ ps aux | grep apache
+root      4308  0.2  0.4 156440 20300 ?        Ss   13:31   0:00 /usr/sbin/apache2 -k start
+apache-+  4312  0.0  0.1 156464  6372 ?        S    13:31   0:00 /usr/sbin/apache2 -k start
+apache-+  4313  0.0  0.1 156464  6372 ?        S    13:31   0:00 /usr/sbin/apache2 -k start
+apache-+  4314  0.0  0.1 156464  6372 ?        S    13:31   0:00 /usr/sbin/apache2 -k start
+apache-+  4315  0.0  0.1 156464  6372 ?        S    13:31   0:00 /usr/sbin/apache2 -k start
+apache-+  4316  0.0  0.1 156464  6372 ?        S    13:31   0:00 /usr/sbin/apache2 -k start
+ubuntu    4328  0.0  0.0   2548   216 pts/10   R+   13:31   0:00 grep --color=auto apache
+ubuntu@ubuntu-VirtualBox:~$ 
+
+
+
+### Verified ossec page is still working.
 
